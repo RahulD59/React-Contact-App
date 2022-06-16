@@ -10,7 +10,7 @@ const initialState=[
     {
         name:"Hari",
         id:2,
-        number:987944133,
+        number:9879844133,
         city:"Mira Road",
         email:"hari@gmail.com"
         

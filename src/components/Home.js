@@ -1,21 +1,52 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { ReactDialogBox } from 'react-js-dialog-box'
+import 'react-js-dialog-box/dist/index.css'
 import {useSelector,useDispatch} from 'react-redux';
-import {Link ,useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 const Home = () => {
     const contacts=useSelector((state)=>state);
- 
-    console.log(contacts);
-    const dispatch=useDispatch();
-    console.log(contacts);
+    const [isOpen,setOpen]=useState(false);
+    const [deleteId,setDeleteID]=useState();
 
-    const navigate=useNavigate();
+    const dispatch=useDispatch();
+    const openModal=(id)=>{
+        setOpen(true);
+        setDeleteID(id);
+       
+        
+    }
     const DeleteContact=(id)=>{
+       
        let data=contacts.filter(contact=>contact.id!==id);
         dispatch({type:"DELETE_CONTACT",payload:data});
+        setOpen(false);
+    }
+    const closeBox=()=>{
+        setOpen(false);
     }
   return (
+    
     <div className='container'>
+       {isOpen ?  <ReactDialogBox
+              closeBox={closeBox}
+              modalWidth='60%'
+              headerBackgroundColor='#212529'
+              headerTextColor='white'
+              headerHeight='65'
+              closeButtonColor='white'
+              bodyBackgroundColor='white'
+              bodyTextColor='black'
+              bodyHeight='auto'
+              headerText='Are you Sure you want to Delete this item?'
+            >
+               <button type='button' className='btn btn-small btn-danger'
+                                    onClick={e=>DeleteContact(deleteId)}
+                                    >Yes</button>
+                                    &nbsp;
+                                    <button type='button' className='btn btn-small btn-primary'
+                                    onClick={e=>closeBox()}
+                                    >Close</button>
+            </ReactDialogBox> : null}
         <div className='row'>
         <div className='col-md-12 my-5 text-right'>
             <Link to='/create' className='btn btn-outline-dark'>Add Contact </Link>
@@ -45,7 +76,7 @@ const Home = () => {
                                     <Link to={`/edit/${contact.id}`} className='btn btn-small btn-primary'>
                                         Edit</Link> &nbsp;
                                     <button type='button' className='btn btn-small btn-danger'
-                                    onClick={e=>DeleteContact(contact.id)}
+                                    onClick={e=>openModal(contact.id)}
                                     >
                                         Delete</button>
                                 </td>
@@ -60,4 +91,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;

@@ -20,8 +20,12 @@ const AddContact = () => {
         
         const checkNumber=contacts.find(contact=> contact.number===parseInt(number) && parseInt(number));
         
+        
         if(!email || !name || !city || !number){
             return toast.warning("Please fill all fields");
+        }
+        if(number.length!==10){
+            return toast.warning("Please please enter valid Number");
         }
         if(checkEmail){
             return toast.error("This email already exits")
