@@ -35,7 +35,7 @@ const AddContact = () => {
         }
 
         const contactData={
-            id:contacts.length,
+            id:contacts.length+1,
             name,
             email,city,number
         }
